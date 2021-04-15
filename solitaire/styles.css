@@ -2,7 +2,7 @@ iframe.Card {
     position: absolute;
     display:block;
     background-color: red;
-    color: white;
+    color: black;
     width: 162px;
     height: 220px;
     border-style:solid;
@@ -10,8 +10,9 @@ iframe.Card {
     border-width: 2px;
     border-color: grey;
     margin: 0;
-    -moz-user-select: none;
+    user-select: none;
     margin: 0;
+    margin-left: 10px;
     padding:0;
 }
 
