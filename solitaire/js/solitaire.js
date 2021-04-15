@@ -390,31 +390,6 @@ function setupCard(number, array) {
 
           addUpListener(i, posX, posY)
         });
-
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchstart", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addDownListener(i, posX, posY)
-        });
-
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchmove", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addMoveListener(posX, posY)
-        });
-
-
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchend", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addUpListener(i, posX, posY)
-        });
       }
     })
 
@@ -581,33 +556,6 @@ function drawCardsPosition() {
 
         addUpListener(j, posX, posY)
       });
-
-
-
-      $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchstart", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addDownListener(i, posX, posY)
-      });
-
-      $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchmove", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addMoveListener(posX, posY)
-      });
-
-
-      $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchend", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addUpListener(i, posX, posY)
-      });
     }
     }
   }
@@ -663,36 +611,6 @@ function drawCardsPosition() {
 
 
     $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addUpListener(i, posX, posY)
-    });
-
-
-
-
-
-
-    $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchstart", () => {
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addDownListener(i, posX, posY)
-    });
-
-    $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchmove", () => {
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addMoveListener(posX, posY)
-    });
-
-
-    $(card.contentWindow.document.getElementById("frame").contentWindow).on("touchend", () => {
       let boudningBox = htmlCard.getBoundingClientRect();
       let posX = event.clientX + boudningBox.left;
       let posY = event.clientY + boudningBox.top;
