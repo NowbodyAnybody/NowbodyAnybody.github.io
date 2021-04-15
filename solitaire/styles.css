@@ -19,7 +19,7 @@ iframe.Card {
 iframe.Card.hidden{
 
     color: rgba(0, 0, 0, 0);
-    background-color: white;
+    background-color: black;
 
 
 }
