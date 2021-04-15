@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        .text{
+            pointer-events: none;
+        }
+    </style>
+
+
+</head>
+<body style="margin:0;padding: 0;overflow: hidden;">
+
+    <iframe src="./../index.html" style="border:none;height:100vh;width:100%;margin:0;padding: 0;position: absolute; overflow: hidden; background-color: black; color:white" id="frame"></iframe>
+
+<div style="position: absolute; pointer-events: none;">
+    <div id="type" class="text" style="font-size: 20px;color: white; display: none; -moz-user-select:none; pointer-events: none; "></div>
+    <div id="value" class="text" style="font-size: 20px;color: white; display: none; -moz-user-select: none; pointer-events: none;"></div>
+</div>
+
+
+<script>
+
+
+    function hideChange(hidden){
+        if(hidden){
+            let elemets = document.getElementsByClassName("text");
+            for(let i = 0; i < elemets.length; i++){
+                elemets[i].style.display = "none";
+            }
+        }
+        else{
+            let elemets = document.getElementsByClassName("text");
+            for(let i = 0; i < elemets.length; i++){
+                elemets[i].style.display = "inline";
+                elemets[i].style.pointerEvents = "none";
+            }
+        }
+    }
+
+    function setColor(color){
+        /*let elemets = document.getElementsByClassName("text");
+            for(let i = 0; i < elemets.length; i++){
+                elemets[i].style.color = color;
+            }*/
+    }
+
+    function setValue(value){
+        document.getElementById("value").innerHTML = value;
+    }
+
+    function setType(type){
+        let element = document.getElementById("type");
+        if(type == "club"){
+            element.innerHTML = "♣";
+            element.style.color = "white";
+        }
+        if(type == "diamond"){
+            element.innerHTML = "♦";
+            element.style.color = "red";
+        }
+
+        if(type == "heart"){
+            element.innerHTML = "♥";
+            element.style.color = "red";
+        }
+
+        if(type == "spade"){
+            element.innerHTML = "♠";
+            element.style.color = "white";
+        }
+
+
+    }
+
+</script>
+
+</body>
+</html>
