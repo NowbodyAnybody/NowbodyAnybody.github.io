@@ -183,6 +183,353 @@ function shuffle(array) {
   return array;
 }
 
+function setupCard(number, array) {
+  let field = document.getElementById("field");
+
+  for (let i = 0; i < array.length; i++) {
+    let card = document.createElement("iframe");
+
+
+    if (i == array.length - 1) {
+      array[i].hidden = false;
+    }
+    if (array[i].hidden) {
+      card.className = "Card hidden";
+    }
+    else {
+      card.className = "Card";
+
+      if (array[i].color == "black") {
+        card.style.backgroundColor = "#999999";
+      }
+      else {
+        card.style.backgroundColor = "#870000";
+      }
+    }
+
+
+    card.setAttribute("id", array[i].type + array[i].value);
+    card.setAttribute("width", cardWidth);
+    card.setAttribute("height", cardHeight);
+    card.setAttribute("src", "card.html");
+
+
+    card.style.left = leftOffset + (number) * cardWidth / 10 + number * cardWidth + "px";
+    card.style.top = cardHeight + (i + 1) * cardHeight / 6 + "px";
+    card.style.position = "absolute";
+
+    card.addEventListener("load", () => {
+      console.log("loaded")
+
+      card.contentWindow.hideChange(array[i].hidden);
+      card.contentWindow.setColor(array[i].color);
+      card.contentWindow.setValue(array[i].value);
+      card.contentWindow.setType(array[i].type);
+
+      // change properties of the html of the iframe of the card
+      if(array[i].hidden){
+        card.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "black";
+      }else{
+        card.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "white";
+      }
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.transform = "rotate(50deg)";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.left = "-16vw";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.fontSize = "25vw";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.color = "rgb(211, 211, 211)";
+      console.log( card.contentDocument.getElementById("frame").contentDocument)
+
+
+      htmlCards.push(card);
+
+      if (!array[i].hidden) {
+        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mousedown", () => {
+          let boudningBox = card.getBoundingClientRect();
+          let posX = event.clientX + boudningBox.left;
+          let posY = event.clientY + boudningBox.top;
+
+          addDownListener(i, posX, posY)
+        });
+
+
+        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
+          let boudningBox = card.getBoundingClientRect();
+          let posX = event.clientX + boudningBox.left;
+          let posY = event.clientY + boudningBox.top;
+
+          addMoveListener(posX, posY)
+        });
+
+        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
+          let boudningBox = card.getBoundingClientRect();
+          let posX = event.clientX + boudningBox.left;
+          let posY = event.clientY + boudningBox.top;
+
+          addUpListener(i, posX, posY)
+        });
+      }
+    })
+
+    field.appendChild(card);
+
+
+
+
+
+  }
+}
+
+function setUpStack(number, array) {
+  let field = document.getElementById("field");
+
+  for (let i = 0; i < array.length; i++) {
+    let card = document.createElement("iframe");
+
+
+    card.setAttribute("id", array[i].type + array[i].value);
+    card.setAttribute("width", cardWidth);
+    card.setAttribute("height", cardHeight);
+    card.setAttribute("src", "card.html");
+
+
+    card.style.left =  leftOffset + "px";
+    card.style.top = cardHeight/10 +"px";
+    card.style.position = "absolute";
+
+    card.className = "Card hidden";
+
+    card.setAttribute("id", array[i].type + array[i].value);
+
+
+
+
+    card.addEventListener("load", () => {
+      console.log("loaded")
+
+      card.contentWindow.hideChange(array[i].hidden);
+      card.contentWindow.setColor(array[i].color);
+      card.contentWindow.setValue(array[i].value);
+      card.contentWindow.setType(array[i].type);
+      
+      // change properties of the html of the iframe of the card
+      card.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "black";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.transform = "rotate(50deg)";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.left = "-16vw";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.fontSize = "25vw";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.color = "rgb(211, 211, 211)";
+
+
+      htmlCards.push(card);
+
+
+       $(card.contentWindow.document.getElementById("frame").contentWindow).on("click", () => {
+          let boudningBox = card.getBoundingClientRect();
+          let posX = event.clientX + boudningBox.left;
+          let posY = event.clientY + boudningBox.top;
+
+          addClickListener(i, posX, posY)
+        });
+
+    });
+
+    field.appendChild(card);
+  }
+}
+
+function renderCards() {
+  let field = document.getElementById("field");
+  field.innerHTML = "";
+  htmlCards = [];
+
+
+  // first column
+  setupCard(0, columns[0]);
+
+
+  // second column
+  setupCard(1, columns[1]);
+
+
+  // third column
+  setupCard(2, columns[2]);
+
+
+  // fourth column
+  setupCard(3, columns[3]);
+
+
+  // fifth column
+  setupCard(4, columns[4]);
+
+
+  // sixth column
+  setupCard(5, columns[5]);
+
+  // seventh column
+  setupCard(6, columns[6]);
+
+  // stack
+  setUpStack(7, columns[7]);
+
+  /*// open stack
+  setUpOpenStack(8, columns[8]);
+
+  // first ace
+  setUpAceStack(9, columns[9]);
+
+  // second ace
+  setUpAceStack(10, columns[10]);
+    
+  // third ace
+  setUpAceStack(11, columns[11]);
+
+  // fourth ace
+  setUpAceStack(12, columns[12]);*/
+
+  let elements = document.getElementsByClassName("Card");
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].style.width = cardWidth + "px";
+    elements[i].style.height = cardHeight + "px";
+  }
+}
+
+function drawCardsPosition() {
+  // columns
+  for (let i = 0; i < 7; i++) {
+    for (let j = 0; j < columns[i].length; j++) {
+      let card = columns[i][j];
+      let htmlCard = document.getElementById(card.type + card.value);
+      htmlCard.style.left = leftOffset + (i) * cardWidth / 10 + i * cardWidth + "px";
+      htmlCard.style.top = cardHeight + (j + 1) * cardHeight / 6 + "px";
+      htmlCard.style.zIndex = j;
+
+      if(j == columns[i].length-1){
+        htmlCard.contentWindow.hideChange(false);
+        card.hidden = false;
+        htmlCard.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "white";
+      }else{
+        htmlCard.contentWindow.hideChange(card.hidden);
+      }
+
+      // clear all eventHandlers
+      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off();
+
+
+      if(!card.hidden){
+      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousedown", () => {
+        let boudningBox = htmlCard.getBoundingClientRect();
+        let posX = event.clientX + boudningBox.left;
+        let posY = event.clientY + boudningBox.top;
+
+        addDownListener(j, posX, posY)
+      });
+
+
+      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
+        let boudningBox = htmlCard.getBoundingClientRect();
+        let posX = event.clientX + boudningBox.left;
+        let posY = event.clientY + boudningBox.top;
+
+        addMoveListener(posX, posY)
+      });
+
+
+      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
+        let boudningBox = htmlCard.getBoundingClientRect();
+        let posX = event.clientX + boudningBox.left;
+        let posY = event.clientY + boudningBox.top;
+
+        addUpListener(j, posX, posY)
+      });
+    }
+    }
+  }
+
+  // stack
+  for (let i = 0; i < columns[7].length; i++){
+    let card = columns[7][i];
+    let htmlCard = document.getElementById(card.type + card.value);
+
+    htmlCard.contentWindow.hideChange(true);
+    card.hidden=true;
+    htmlCard.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "black";
+
+    htmlCard.style.left =  leftOffset + "px";
+    htmlCard.style.top = cardHeight/10 +"px";
+    htmlCard.style.position = "absolute";
+    htmlCard.style.zIndex = i;
+
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off();
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("click",()=>{
+      addClickListener();
+    })
+  }
+
+  //open stack
+  for (let i = 0; i < columns[8].length; i++){
+    let card = columns[8][i];
+    let htmlCard = document.getElementById(card.type + card.value);
+
+    htmlCard.contentWindow.hideChange(false);
+    card.hidden=false;
+    htmlCard.contentDocument.getElementById("frame").contentDocument.body.style.backgroundColor = "white";
+
+    htmlCard.style.left = leftOffset + 1 * cardWidth / 10 + cardWidth + "px";
+    htmlCard.style.top = cardHeight/10 + "px";
+    htmlCard.style.zIndex = i;
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off()
+
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousedown",()=>{
+      let boudningBox = htmlCard.getBoundingClientRect();
+      let posX = event.clientX + boudningBox.left;
+      let posY = event.clientY + boudningBox.top;
+
+      addDownListener(i, posX, posY)
+    });
+
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
+      let boudningBox = htmlCard.getBoundingClientRect();
+      let posX = event.clientX + boudningBox.left;
+      let posY = event.clientY + boudningBox.top;
+
+      addMoveListener(posX, posY)
+    });
+
+
+    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
+      let boudningBox = htmlCard.getBoundingClientRect();
+      let posX = event.clientX + boudningBox.left;
+      let posY = event.clientY + boudningBox.top;
+
+      addUpListener(i, posX, posY)
+    });
+
+
+
+  }
+
+
+  //Ace Stacks
+  for(let i = 0; i < 4; i++){
+    for(let j = 0; j < columns[i+9].length; j++){
+      let card = columns[i+9][j];
+      let htmlCard = document.getElementById(card.type + card.value);
+
+      htmlCard.contentWindow.hideChange(false);
+      card.hidden=false;
+
+      htmlCard.style.left = leftOffset+ (i+9 - 6) * cardWidth / 10 + (i+9 - 6) * cardWidth + "px";
+      htmlCard.style.top = cardHeight/10 +"px";
+      htmlCard.style.zIndex = j;
+      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off()
+    }
+  }
+
+
+  if(columns[9].length == 13 && columns[10].length == 13 && columns[11].length == 13 && columns[12].length == 13){
+    winningAnimation();
+  }
+}
+
 function addDownListener(index, posX, posY) {
   console.log("got card")
   console.log(index)
@@ -317,332 +664,6 @@ function addUpListener(index, posX, posY) {
 
   drawCardsPosition();
 
-}
-
-function setupCard(number, array) {
-  let field = document.getElementById("field");
-
-  for (let i = 0; i < array.length; i++) {
-    let card = document.createElement("iframe");
-
-
-    if (i == array.length - 1) {
-      array[i].hidden = false;
-    }
-    if (array[i].hidden) {
-      card.className = "Card hidden";
-    }
-    else {
-      card.className = "Card";
-
-      if (array[i].color == "black") {
-        card.style.backgroundColor = "#999999";
-      }
-      else {
-        card.style.backgroundColor = "#870000";
-      }
-    }
-
-
-    card.setAttribute("id", array[i].type + array[i].value);
-    card.setAttribute("width", cardWidth);
-    card.setAttribute("height", cardHeight);
-    card.setAttribute("src", "card.html");
-
-
-    card.style.left = leftOffset + (number) * cardWidth / 10 + number * cardWidth + "px";
-    card.style.top = cardHeight + (i + 1) * cardHeight / 6 + "px";
-    card.style.position = "absolute";
-
-    card.addEventListener("load", () => {
-      console.log("loaded")
-
-      card.contentWindow.hideChange(array[i].hidden);
-      card.contentWindow.setColor(array[i].color);
-      card.contentWindow.setValue(array[i].value);
-      card.contentWindow.setType(array[i].type);
-
-
-      htmlCards.push(card);
-
-      if (!array[i].hidden) {
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mousedown", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addDownListener(i, posX, posY)
-        });
-
-
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addMoveListener(posX, posY)
-        });
-
-        $(card.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addUpListener(i, posX, posY)
-        });
-      }
-    })
-
-    field.appendChild(card);
-
-
-
-
-
-  }
-}
-
-function setUpStack(number, array) {
-  let field = document.getElementById("field");
-
-  for (let i = 0; i < array.length; i++) {
-    let card = document.createElement("iframe");
-
-
-    card.setAttribute("id", array[i].type + array[i].value);
-    card.setAttribute("width", cardWidth);
-    card.setAttribute("height", cardHeight);
-    card.setAttribute("src", "card.html");
-
-
-    card.style.left =  leftOffset + "px";
-    card.style.top = cardHeight/10 +"px";
-    card.style.position = "absolute";
-
-    card.className = "Card hidden";
-
-    card.setAttribute("id", array[i].type + array[i].value);
-
-
-
-
-    card.addEventListener("load", () => {
-      console.log("loaded")
-
-      card.contentWindow.hideChange(array[i].hidden);
-      card.contentWindow.setColor(array[i].color);
-      card.contentWindow.setValue(array[i].value);
-      card.contentWindow.setType(array[i].type);
-
-
-      htmlCards.push(card);
-
-
-       $(card.contentWindow.document.getElementById("frame").contentWindow).on("click", () => {
-          let boudningBox = card.getBoundingClientRect();
-          let posX = event.clientX + boudningBox.left;
-          let posY = event.clientY + boudningBox.top;
-
-          addClickListener(i, posX, posY)
-        });
-
-    });
-
-    field.appendChild(card);
-  }
-}
-
-function renderCards() {
-  let field = document.getElementById("field");
-  field.innerHTML = "";
-  htmlCards = [];
-
-
-  // first column
-  setupCard(0, columns[0]);
-
-
-  // second column
-  setupCard(1, columns[1]);
-
-
-  // third column
-  setupCard(2, columns[2]);
-
-
-  // fourth column
-  setupCard(3, columns[3]);
-
-
-  // fifth column
-  setupCard(4, columns[4]);
-
-
-  // sixth column
-  setupCard(5, columns[5]);
-
-  // seventh column
-  setupCard(6, columns[6]);
-
-  // stack
-  setUpStack(7, columns[7]);
-
-  /*// open stack
-  setUpOpenStack(8, columns[8]);
-
-  // first ace
-  setUpAceStack(9, columns[9]);
-
-  // second ace
-  setUpAceStack(10, columns[10]);
-    
-  // third ace
-  setUpAceStack(11, columns[11]);
-
-  // fourth ace
-  setUpAceStack(12, columns[12]);*/
-
-  let elements = document.getElementsByClassName("Card");
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].style.width = cardWidth + "px";
-    elements[i].style.height = cardHeight + "px";
-  }
-}
-
-function drawCardsPosition() {
-  // columns
-  for (let i = 0; i < 7; i++) {
-    for (let j = 0; j < columns[i].length; j++) {
-      let card = columns[i][j];
-      let htmlCard = document.getElementById(card.type + card.value);
-      htmlCard.style.left = leftOffset + (i) * cardWidth / 10 + i * cardWidth + "px";
-      htmlCard.style.top = cardHeight + (j + 1) * cardHeight / 6 + "px";
-      htmlCard.style.zIndex = j;
-
-      if(j == columns[i].length-1){
-        htmlCard.contentWindow.hideChange(false);
-        card.hidden = false;
-      }else{
-        htmlCard.contentWindow.hideChange(card.hidden);
-      }
-
-      // clear all eventHandlers
-      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off();
-
-
-      if(!card.hidden){
-      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousedown", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addDownListener(j, posX, posY)
-      });
-
-
-      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addMoveListener(posX, posY)
-      });
-
-
-      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
-        let boudningBox = htmlCard.getBoundingClientRect();
-        let posX = event.clientX + boudningBox.left;
-        let posY = event.clientY + boudningBox.top;
-
-        addUpListener(j, posX, posY)
-      });
-    }
-    }
-  }
-
-  // stack
-  for (let i = 0; i < columns[7].length; i++){
-    let card = columns[7][i];
-    let htmlCard = document.getElementById(card.type + card.value);
-
-    htmlCard.contentWindow.hideChange(true);
-    card.hidden=true;
-
-
-    htmlCard.style.left =  leftOffset + "px";
-    htmlCard.style.top = cardHeight/10 +"px";
-    htmlCard.style.position = "absolute";
-    htmlCard.style.zIndex = i;
-
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off();
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("click",()=>{
-      addClickListener();
-    })
-  }
-
-  //open stack
-  for (let i = 0; i < columns[8].length; i++){
-    let card = columns[8][i];
-    let htmlCard = document.getElementById(card.type + card.value);
-
-    htmlCard.contentWindow.hideChange(false);
-    card.hidden=false;
-
-    htmlCard.style.left = leftOffset + 1 * cardWidth / 10 + cardWidth + "px";
-    htmlCard.style.top = cardHeight/10 + "px";
-    htmlCard.style.zIndex = i;
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off()
-
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousedown",()=>{
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addDownListener(i, posX, posY)
-    });
-
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mousemove", () => {
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addMoveListener(posX, posY)
-    });
-
-
-    $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).on("mouseup", () => {
-      let boudningBox = htmlCard.getBoundingClientRect();
-      let posX = event.clientX + boudningBox.left;
-      let posY = event.clientY + boudningBox.top;
-
-      addUpListener(i, posX, posY)
-    });
-
-
-
-  }
-
-
-  //Ace Stacks
-  for(let i = 0; i < 4; i++){
-    for(let j = 0; j < columns[i+9].length; j++){
-      let card = columns[i+9][j];
-      let htmlCard = document.getElementById(card.type + card.value);
-
-      htmlCard.contentWindow.hideChange(false);
-      card.hidden=false;
-
-      htmlCard.style.left = leftOffset+ (i+9 - 6) * cardWidth / 10 + (i+9 - 6) * cardWidth + "px";
-      htmlCard.style.top = cardHeight/10 +"px";
-      htmlCard.style.zIndex = j;
-      $(htmlCard.contentWindow.document.getElementById("frame").contentWindow).off()
-    }
-  }
-
-
-  if(columns[9].length == 13 && columns[10].length == 13 && columns[11].length == 13 && columns[12].length == 13){
-    winningAnimation();
-  }
 }
 
 function addClickListener() {
