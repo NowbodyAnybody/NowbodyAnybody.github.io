@@ -19,8 +19,8 @@
     <iframe src="./../index.html" style="border:none;height:100vh;width:100%;margin:0;padding: 0;position: absolute; overflow: hidden;" id="frame"></iframe>
 
 <div style="position: absolute; pointer-events: none;">
-    <div id="type" class="text"></div>
-    <div id="value" class="text"></div>
+    <div id="type" class="text" style="font-size: 20px;color: black; display: none; user-select:none; pointer-events: none; "></div>
+    <div id="value" class="text" style="font-size: 20px;color: black; display: none; user-select: none; pointer-events: none;"></div>
 </div>
 
 
@@ -58,7 +58,7 @@
         let element = document.getElementById("type");
         if(type == "club"){
             element.innerHTML = "♣";
-            element.style.color = "white";
+            element.style.color = "black";
         }
         if(type == "diamond"){
             element.innerHTML = "♦";
@@ -72,7 +72,7 @@
 
         if(type == "spade"){
             element.innerHTML = "♠";
-            element.style.color = "white";
+            element.style.color = "black";
         }
 
 
