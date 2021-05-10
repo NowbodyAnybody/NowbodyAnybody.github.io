@@ -85,7 +85,7 @@ shuffleCards();
 renderCards();
 
 function shuffleCards() {
-  console.log("shuffling");
+  // console.log("shuffling");
   let suffledDeck = shuffle(deck);
   setupField(suffledDeck);
 }
@@ -219,7 +219,7 @@ function setupCard(number, array) {
     card.style.position = "absolute";
 
     card.addEventListener("load", () => {
-      console.log("loaded")
+      // console.log("loaded")
 
       card.contentWindow.hideChange(array[i].hidden);
       card.contentWindow.setColor(array[i].color);
@@ -236,7 +236,8 @@ function setupCard(number, array) {
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.left = "-16vw";
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.fontSize = "25vw";
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.color = "rgb(211, 211, 211)";
-      console.log( card.contentDocument.getElementById("frame").contentDocument)
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("sol").style.display = "none";
+      // console.log( card.contentDocument.getElementById("frame").contentDocument)
 
 
       htmlCards.push(card);
@@ -303,7 +304,7 @@ function setUpStack(number, array) {
 
 
     card.addEventListener("load", () => {
-      console.log("loaded")
+      // console.log("loaded")
 
       card.contentWindow.hideChange(array[i].hidden);
       card.contentWindow.setColor(array[i].color);
@@ -316,6 +317,7 @@ function setUpStack(number, array) {
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.left = "-16vw";
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.fontSize = "25vw";
       card.contentDocument.getElementById("frame").contentDocument.getElementById("timeCountdown").style.color = "rgb(211, 211, 211)";
+      card.contentDocument.getElementById("frame").contentDocument.getElementById("sol").style.display = "none";
 
 
       htmlCards.push(card);
@@ -531,12 +533,11 @@ function drawCardsPosition() {
 }
 
 function addDownListener(index, posX, posY) {
-  console.log("got card")
-  console.log(index)
+
   let offset = cardWidth / 10;
 
   if (posY <= cardHeight) {
-    console.log("stack");
+
     startingColumn = 8;
   } else {
     startingColumn = Math.floor((posX-leftOffset) / (offset + cardWidth));
@@ -553,7 +554,7 @@ function addDownListener(index, posX, posY) {
   offsetY = posY - clickedCards[0].getBoundingClientRect().top;
 
 
-  console.log(clickedCards);
+
 
   startingIndex = index;
 
@@ -562,7 +563,7 @@ function addDownListener(index, posX, posY) {
 function addMoveListener(posX, posY) {
 
   if (clickedCards.length > 0) {
-    console.log("moving");
+
     for (let i = 0; i < clickedCards.length; i++) {
       clickedCards[i].style.left = posX - offsetX + "px";
       clickedCards[i].style.top = posY - offsetY + i * cardHeight / 4 + "px";
@@ -571,7 +572,7 @@ function addMoveListener(posX, posY) {
 }
 
 function addUpListener(index, posX, posY) {
-  console.log("lost card")
+  // console.log("lost card")
 
   // check if valid move
   // get column
@@ -582,7 +583,7 @@ function addUpListener(index, posX, posY) {
   if (posY <= cardHeight && clickedCards.length == 1) {
     // first row
     let finishingColumn = Math.floor((posX-leftOffset) / (offset + cardWidth)) + 6;
-    console.log("ahhhhhh" + finishingColumn);
+    // console.log("ahhhhhh" + finishingColumn);
 
     let startingType = columns[startingColumn][index].type;
     let startingValue = columns[startingColumn][index].value;
@@ -591,8 +592,8 @@ function addUpListener(index, posX, posY) {
     if (columns[finishingColumn].length == 0) {
       if (columns[startingColumn][index].value == 1) {
         columns[finishingColumn].push(columns[startingColumn][index]);
-        console.log(columns[startingColumn][index]);
-        console.log(columns[finishingColumn]);
+        // console.log(columns[startingColumn][index]);
+        // console.log(columns[finishingColumn]);
         columns[startingColumn].pop();
       }
     }
@@ -667,7 +668,7 @@ function addUpListener(index, posX, posY) {
 }
 
 function addClickListener() {
-  console.log("clicked stack")
+  // console.log("clicked stack")
   columns[8].push(columns[7][columns[7].length - 1]);
   columns[7].pop();
   drawCardsPosition();
@@ -675,7 +676,7 @@ function addClickListener() {
 
 
 async function winningAnimation(){
-  console.log("win");
+  // console.log("win");
   let stripeWidth = 3;
   let amount = window.screen.width/stripeWidth;
   let field = document.getElementById("win")

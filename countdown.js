@@ -1,7 +1,7 @@
 let timeCount = document.getElementById("timeCountdown");
 let date = new Date();
 
-let maturaDate = new Date("May 31, 2021 00:00:00")
+let maturaDate = new Date("June 07, 2021 00:00:00")
 
 
 
